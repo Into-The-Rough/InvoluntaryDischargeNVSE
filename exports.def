@@ -1,0 +1,4 @@
+LIBRARY	"InvoluntaryDischargeNVSE"
+EXPORTS
+NVSEPlugin_Query
+NVSEPlugin_Load

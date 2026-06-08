@@ -1,0 +1,3 @@
+Begin Function {}
+ReloadPluginConfig "InvoluntaryDischargeNVSE"
+end

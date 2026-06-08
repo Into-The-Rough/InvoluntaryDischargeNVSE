@@ -1,0 +1,16 @@
+.vs/
+Debug/
+Release/
+*.obj
+*.pdb
+*.dll
+*.lib
+*.exp
+*.iobj
+*.ipdb
+*.idb
+*.ilk
+*.tlog
+*.lastbuildstate
+*.vcxproj.user
+nexus_description.*

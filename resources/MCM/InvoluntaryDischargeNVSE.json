@@ -1,0 +1,137 @@
+{
+	"modName": "InvoluntaryDischargeNVSE",
+	"displayName": "Involuntary Discharge",
+	"description": "Configure dropped weapon discharge behavior",
+	"saveFile": "InvoluntaryDischargeNVSE.ini",
+	"minMCMVersion": 1.00,
+	"minModVersion": 1.00,
+	"requirements": [
+		{ "type": "file", "file": "NVSE/Plugins/scripts/ln_involuntarydischarge-mcm.txt" },
+		{ "type": "file", "file": "NVSE/Plugins/InvoluntaryDischargeNVSE.dll" }
+	],
+	"submenus": {
+		"0": {
+			"listTitle": "General",
+			"pageTitle": "General Settings",
+			"columns": 1,
+			"enable": 1,
+			"active": 1,
+			"options": {
+				"1": {
+					"title": "General",
+					"enable": 1,
+					"type": 0
+				},
+				"2": {
+					"title": "Combat Only",
+					"type": 5,
+					"enable": 1,
+					"mouse": "Hold off firing unless the actor that dropped the weapon is fighting",
+					"vars": [{ "configINI": "Main:bCombatOnly", "default": 0 }]
+				},
+				"3": {
+					"title": "Guaranteed Fire",
+					"type": 5,
+					"enable": 1,
+					"mouse": "Skip the condition and luck roll so every dropped weapon goes off. Also makes actors drop their weapon on death. Applies on the next launch.",
+					"vars": [{ "configINI": "Main:bGuaranteedFire", "default": 0 }]
+				},
+				"4": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"5": {
+					"title": "Burst",
+					"enable": 1,
+					"type": 0
+				},
+				"6": {
+					"title": "Burst Cap",
+					"type": 2,
+					"enable": 1,
+					"mouse": "Upper limit on rounds a single auto-weapon drop can let loose",
+					"vars": [{ "configINI": "Main:iBurstCap", "default": 8 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 1,
+						"valueMin": 1,
+						"valueMax": 255
+					}
+				},
+				"7": {
+					"title": "Shot Spacing (ms)",
+					"type": 2,
+					"enable": 1,
+					"mouse": "Pause in milliseconds inserted between each shot of a burst",
+					"vars": [{ "configINI": "Main:iShotSpacingMs", "default": 100 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 10,
+						"valueMin": 10,
+						"valueMax": 1000
+					}
+				},
+				"8": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"9": {
+					"title": "Recoil",
+					"enable": 1,
+					"type": 0
+				},
+				"10": {
+					"title": "Base Kick",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Flat push every discharge receives, aimed away from the gun",
+					"vars": [{ "configINI": "Main:fBaseKick", "default": 85.0 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 5.0,
+						"valueMin": 0.0,
+						"valueMax": 500.0
+					}
+				},
+				"11": {
+					"title": "Kick Per Ammo Weight",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Push added per unit of weight the chambered round carries",
+					"vars": [{ "configINI": "Main:fKickPerAmmoWeight", "default": 10.0 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 1.0,
+						"valueMin": 0.0,
+						"valueMax": 100.0
+					}
+				},
+				"12": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"13": {
+					"title": "Chance",
+					"enable": 1,
+					"type": 0
+				},
+				"14": {
+					"title": "Luck Weight",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "How much the dropper's Luck matters to the fire chance. Higher means Luck counts for more. Ignored while Guaranteed Fire is on.",
+					"vars": [{ "configINI": "Main:fLuckWeight", "default": 1.9 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.1,
+						"valueMin": 0.0,
+						"valueMax": 10.0
+					}
+				}
+			}
+		}
+	}
+}
