@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+#include "Detours.hpp"
 #include "InvoluntaryDischarge.hpp"
 #include <Windows.h>
 #include <cstdlib>
@@ -24,7 +25,6 @@ constexpr UInt32 kFunc_GetNiNode = 0x43FCD0;
 constexpr UInt32 kFunc_FireWeapon = 0x523150;
 constexpr UInt32 kFunc_ApplyLinearImpulse = 0x9B0C50;
 constexpr UInt32 kFunc_LookupForm = 0x4839C0;
-constexpr UInt32 kFunc_AppendDroppedItem = 0x56ACB0;
 constexpr UInt32 kHook_KillDropItem = 0x89F71C;
 constexpr UInt32 kHook_DisarmDropItem = 0x8919C5;
 constexpr UInt32 kRTTI_bhkNiCollisionObject = 0x1267B70;
@@ -129,11 +129,13 @@ enum {
 enum { eActorVal_Luck = 11 };
 
 extern void SafeWrite8(UInt32 addr, UInt8 data);
-extern void SafeWrite32(UInt32 addr, UInt32 data);
-extern void WriteRelCall(UInt32 src, UInt32 dst);
 extern void* g_eventInterface;
 
 namespace InvoluntaryDischarge {
+
+static Detours::CallDetour s_killDropItemCall;
+static Detours::CallDetour s_disarmDropItemCall;
+typedef void(__cdecl* AppendDroppedItem_t)(Actor*, TESObjectREFR*);
 
 namespace Config {
 	static bool bCombatOnly = false;
@@ -378,8 +380,10 @@ static void TryQueueWeapon(TESObjectREFR* droppedRef, TESForm* baseForm, TESObje
 	QueueDischarge(droppedRef->refID, baseForm->refID, dropperID, rounds, intervalMs);
 }
 
-void __cdecl AppendDroppedItemHook(Actor* actor, TESObjectREFR* droppedRef) {
-	CdeclCall(kFunc_AppendDroppedItem, actor, droppedRef);
+static void HandleDroppedItem(Detours::CallDetour& detour, Actor* actor, TESObjectREFR* droppedRef) {
+	auto original = (AppendDroppedItem_t)detour.GetOverwrittenAddr();
+	original(actor, droppedRef);
+
 	if (!actor || !droppedRef) return;
 
 	auto* baseForm = droppedRef->baseForm;
@@ -391,6 +395,14 @@ void __cdecl AppendDroppedItemHook(Actor* actor, TESObjectREFR* droppedRef) {
 
 	float luck = actor->avOwner.GetActorValue(eActorVal_Luck);
 	TryQueueWeapon(droppedRef, baseForm, weapon, luck, actor->refID);
+}
+
+void __cdecl KillDropItemHook(Actor* actor, TESObjectREFR* droppedRef) {
+	HandleDroppedItem(s_killDropItemCall, actor, droppedRef);
+}
+
+void __cdecl DisarmDropItemHook(Actor* actor, TESObjectREFR* droppedRef) {
+	HandleDroppedItem(s_disarmDropItemCall, actor, droppedRef);
 }
 
 void OnDropHandler(TESObjectREFR* thisObj, void* params) {
@@ -434,8 +446,8 @@ void ReadConfig(const char* iniPath) {
 }
 
 void InitHooks() {
-	WriteRelCall(kHook_KillDropItem, (UInt32)AppendDroppedItemHook);
-	WriteRelCall(kHook_DisarmDropItem, (UInt32)AppendDroppedItemHook);
+	s_killDropItemCall.WriteRelCall(kHook_KillDropItem, KillDropItemHook);
+	s_disarmDropItemCall.WriteRelCall(kHook_DisarmDropItem, DisarmDropItemHook);
 
 	if (Config::bGuaranteedFire) {
 		SafeWrite8(0x89F177, 0xEB);

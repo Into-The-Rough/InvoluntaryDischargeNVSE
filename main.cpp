@@ -62,19 +62,6 @@ void SafeWrite8(UInt32 addr, UInt8 data) {
 	FlushInstructionCache(GetCurrentProcess(), (void*)addr, 1);
 }
 
-void SafeWrite32(UInt32 addr, UInt32 data) {
-	DWORD oldProtect;
-	VirtualProtect((void*)addr, 4, PAGE_EXECUTE_READWRITE, &oldProtect);
-	*(UInt32*)addr = data;
-	VirtualProtect((void*)addr, 4, oldProtect, &oldProtect);
-	FlushInstructionCache(GetCurrentProcess(), (void*)addr, 4);
-}
-
-void WriteRelCall(UInt32 src, UInt32 dst) {
-	SafeWrite8(src, 0xE8);
-	SafeWrite32(src + 1, dst - src - 5);
-}
-
 static void MessageHandler(NVSEMessage* msg) {
 	switch (msg->type) {
 	case kMessage_PostPostLoad:
