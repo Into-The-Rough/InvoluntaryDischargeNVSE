@@ -13,6 +13,7 @@ No ESP is required.
 - Recoil impulse kicks the weapon on each shot, scaled by ammo weight
 - Gunshots create detection events so nearby NPCs react
 - Handles NPC deaths, disarms, player drops, and scripted drops (via xNVSE OnDrop)
+- Deliberate player inventory drops are exempt by default (`bIgnorePlayerDrops`)
 
 ## Requirements
 

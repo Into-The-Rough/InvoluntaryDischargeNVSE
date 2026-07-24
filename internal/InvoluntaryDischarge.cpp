@@ -140,6 +140,7 @@ typedef void(__cdecl* AppendDroppedItem_t)(Actor*, TESObjectREFR*);
 namespace Config {
 	static bool bCombatOnly = false;
 	static bool bGuaranteedFire = false;
+	static bool bIgnorePlayerDrops = true;
 	static int iBurstCap = 8;
 	static int iShotSpacingMs = 100;
 	static float fBaseKick = 85.0f;
@@ -412,6 +413,7 @@ void OnDropHandler(TESObjectREFR* thisObj, void* params) {
 	auto* dropperRef = (TESObjectREFR*)p[0];
 	auto* droppedRef = (TESObjectREFR*)p[1];
 	if (!dropperRef || !droppedRef) return;
+	if (Config::bIgnorePlayerDrops && dropperRef->refID == 0x14) return;
 
 	auto* baseForm = droppedRef->baseForm;
 	if (!baseForm || baseForm->typeID != kFormType_TESObjectWEAP) return;
@@ -438,6 +440,7 @@ void ReadConfig(const char* iniPath) {
 	WritePrivateProfileStringA(NULL, NULL, NULL, iniPath);
 	Config::bCombatOnly = Config::GetBool("Main", "bCombatOnly", false, iniPath);
 	Config::bGuaranteedFire = Config::GetBool("Main", "bGuaranteedFire", false, iniPath);
+	Config::bIgnorePlayerDrops = Config::GetBool("Main", "bIgnorePlayerDrops", true, iniPath);
 	Config::iBurstCap = Config::GetInt("Main", "iBurstCap", 8, iniPath);
 	Config::iShotSpacingMs = Config::GetInt("Main", "iShotSpacingMs", 100, iniPath);
 	Config::fBaseKick = Config::GetFloat("Main", "fBaseKick", 85.0f, iniPath);

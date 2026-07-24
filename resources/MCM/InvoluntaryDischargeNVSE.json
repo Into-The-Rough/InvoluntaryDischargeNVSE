@@ -37,16 +37,23 @@
 					"vars": [{ "configINI": "Main:bGuaranteedFire", "default": 0 }]
 				},
 				"4": {
+					"title": "Ignore Player Drops",
+					"type": 5,
+					"enable": 1,
+					"mouse": "Weapons the player deliberately drops from their inventory never fire. Being disarmed still counts.",
+					"vars": [{ "configINI": "Main:bIgnorePlayerDrops", "default": 1 }]
+				},
+				"5": {
 					"title": " ",
 					"enable": 1,
 					"type": 0
 				},
-				"5": {
+				"6": {
 					"title": "Burst",
 					"enable": 1,
 					"type": 0
 				},
-				"6": {
+				"7": {
 					"title": "Burst Cap",
 					"type": 2,
 					"enable": 1,
@@ -59,7 +66,7 @@
 						"valueMax": 255
 					}
 				},
-				"7": {
+				"8": {
 					"title": "Shot Spacing (ms)",
 					"type": 2,
 					"enable": 1,
@@ -72,17 +79,17 @@
 						"valueMax": 1000
 					}
 				},
-				"8": {
+				"9": {
 					"title": " ",
 					"enable": 1,
 					"type": 0
 				},
-				"9": {
+				"10": {
 					"title": "Recoil",
 					"enable": 1,
 					"type": 0
 				},
-				"10": {
+				"11": {
 					"title": "Base Kick",
 					"type": 2.5,
 					"enable": 1,
@@ -95,7 +102,7 @@
 						"valueMax": 500.0
 					}
 				},
-				"11": {
+				"12": {
 					"title": "Kick Per Ammo Weight",
 					"type": 2.5,
 					"enable": 1,
@@ -108,17 +115,17 @@
 						"valueMax": 100.0
 					}
 				},
-				"12": {
+				"13": {
 					"title": " ",
 					"enable": 1,
 					"type": 0
 				},
-				"13": {
+				"14": {
 					"title": "Chance",
 					"enable": 1,
 					"type": 0
 				},
-				"14": {
+				"15": {
 					"title": "Luck Weight",
 					"type": 2.5,
 					"enable": 1,
