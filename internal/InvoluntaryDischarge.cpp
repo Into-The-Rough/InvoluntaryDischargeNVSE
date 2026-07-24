@@ -437,7 +437,6 @@ void OnDropHandler(TESObjectREFR* thisObj, void* params) {
 
 void ReadConfig(const char* iniPath) {
 	g_iniPath = iniPath;
-	WritePrivateProfileStringA(NULL, NULL, NULL, iniPath);
 	Config::bCombatOnly = Config::GetBool("Main", "bCombatOnly", false, iniPath);
 	Config::bGuaranteedFire = Config::GetBool("Main", "bGuaranteedFire", false, iniPath);
 	Config::bIgnorePlayerDrops = Config::GetBool("Main", "bIgnorePlayerDrops", true, iniPath);
